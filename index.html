@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>oe-family_site</title>
+
+        <!--リセットCSS-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+        <!--ファイルの読み込み-->
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+
+        <!--Googleフォント-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+
+        <!--ローディング画面-->
+        <div id="js-loading" class="ly_loading">
+            <div class="bl_loadingSpinner">
+                <img src="img/loading.svg" alt="Loading..." width="80" height="80">
+            </div>
+        </div>
+
+        <!--ヘッダー-->
+        <header class="ly_header">
+            <div class="ly_header_inner">
+                <div class="bl_headerUtils">
+                    <a class="bl_headerUtils_logo" href="index.html">
+                        <span class="bl_headerUtils_logo_txt-box">SERI</span><span class="bl_headerUtils_logo_txt-suffix">O</span>
+                    </a>
+                    <a class="bl_headerUtils_txt" href="index.html">Oe-NoteBook</a>
+                </div>
+                <!-- / .bl_headerUtils-->
+
+                <!-- ハンバーガーボタン -->
+                <button class="bl_hamburger" id="js-hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <!-- ナビゲーションメニュー -->
+                <nav class="bl_headerNav" id="js-nav">
+                    <ul class="bl_headerNav_list">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- /. ly_header_inner-->
+         </header>
+
+         <main class="ly_main">
+            <div class="ly_main_inner">
+                
+                <h1 class="bl_pageTitle">All Notes</h1>
+
+                <div class="bl_memoGrid">
+                    
+                    <article class="bl_memoCard">
+                        <a href="#" class="bl_memoCard_link">
+                            <h2 class="bl_memoCard_title">買い物リスト</h2>
+                            <p class="bl_memoCard_date">2026.02.11</p>
+                            <p class="bl_memoCard_txt">
+                                ・牛乳<br>
+                                ・卵パック<br>
+                                ・鶏むね肉<br>
+                                週末のパーティー用の飲み物も忘れずに買うこと。
+                            </p>
+                        </a>
+                    </article>
+
+                    <article class="bl_memoCard">
+                        <a href="#" class="bl_memoCard_link">
+                            <h2 class="bl_memoCard_title">UIデザインのアイデア</h2>
+                            <p class="bl_memoCard_date">2026.02.10</p>
+                            <p class="bl_memoCard_txt">
+                                配色はUbuntuカラーを参考に。<br>
+                                紫：#772953<br>
+                                オレンジ：#E95420<br>
+                                余白を十分にとってカード型レイアウトにする。
+                            </p>
+                        </a>
+                    </article>
+
+                    <article class="bl_memoCard">
+                        <a href="#" class="bl_memoCard_link">
+                            <h2 class="bl_memoCard_title">会議議事録</h2>
+                            <p class="bl_memoCard_date">2026.02.08</p>
+                            <p class="bl_memoCard_txt">
+                                次回のプロジェクトAについての進捗確認。<br>
+                                1. デザインフェーズの完了予定日は来週水曜日。<br>
+                                2. フロントエンド実装はその後開始。<br>
+                                3. API仕様書の確認が必要。<br>
+                                担当者に連絡を入れること。
+                            </p>
+                        </a>
+                    </article>
+
+                    <article class="bl_memoCard">
+                        <a href="#" class="bl_memoCard_link">
+                            <h2 class="bl_memoCard_title">読書感想文</h2>
+                            <p class="bl_memoCard_date">2026.02.05</p>
+                            <p class="bl_memoCard_txt">ミステリー小説を読んだ。犯人のトリックが...</p>
+                        </a>
+                    </article>
+                    <article class="bl_memoCard">
+                        <a href="#" class="bl_memoCard_link">
+                            <h2 class="bl_memoCard_title">ジムのメニュー</h2>
+                            <p class="bl_memoCard_date">2026.02.01</p>
+                            <p class="bl_memoCard_txt">ベンチプレス 60kg x 10</p>
+                        </a>
+                    </article>
+
+                </div>
+                </div>
+            <button class="bl_fab" aria-label="メモを新規作成">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+
+        </main>
+
+        <!-- ボトムナビゲーション -->
+        <nav class="bl_bottomNav">
+            <ul class="bl_bottomNav_list">
+                <li><a href="#"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-circle-info"></i><span>About</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-briefcase"></i><span>Services</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-envelope"></i><span>Contact</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- https://css-architecture-perfect.guide/chapter6 -->
+        <!-- デザイン（PC）： https://dribbble.com/shots/14967815-Notes-App-concept?showSimilarShots=true&_=1770447579924 -->
+    </body>
+</html>

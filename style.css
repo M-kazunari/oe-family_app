@@ -1,0 +1,503 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   Base Styles (Mobile First)
+   ========================================================================== */
+:root {
+    --font-main: 'Ubuntu', sans-serif;
+    --color-text: #333333;
+    --color-bg: #ffffff;
+    --header-height-mobile: 60px;
+    --header-height-desktop: 80px;
+    --bottom-nav-height: 60px;
+}
+:root {
+    --ubuntu-orange: #E95420;    /* メインアクセント */
+    --ubuntu-purple: #772953;    /* ヘッダー背景（オーベルジン） */
+    --ubuntu-warm-grey: #AEA79F; /* サブカラー */
+    --text-color: #333333;       /* 文字色 */
+    --bg-color: #F2F2F2;         /* 背景色 */
+    --sidebar-width: 260px;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    margin: 0;
+    /* ヘッダーをfixedにするため、コンテンツが隠れないようpaddingを設定 */
+    padding-top: var(--header-height-mobile);
+    padding-bottom: var(--bottom-nav-height); /* ボトムナビの分空ける */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==========================================================================
+   Layout (ly_)
+   ========================================================================== */
+.ly_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--ubuntu-purple);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.ly_header_inner {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    height: var(--header-height-mobile);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ロゴとメニューを両端に配置 */
+    position: relative; /* Added for absolute positioning of child */
+}
+
+/* -----------------------------------------------------------------
+   [loading]ローディング
+----------------------------------------------------------------- */
+/* ローディング画面全体 */
+.ly_loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-bg); /* ページの背景色と同じにする */
+    z-index: 9999; /* 他のすべての要素より前面に表示 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* フェードアウトのアニメーション設定 */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* 読み込み完了後に付与されるクラス */
+.ly_loading.is-loaded {
+    opacity: 0;          /* 透明にする */
+    visibility: hidden;  /* 要素を不可視にし、クリックなどもできなくする */
+    pointer-events: none; /* 念のためマウスイベントも無効化 */
+}
+
+/* SVG画像のスタイル */
+.bl_loadingSpinner img {
+    /* もしSVG自体に回転アニメーションがない場合、
+       ここでCSSアニメーションを追加することも可能です */
+    /* animation: spin 1s linear infinite; */
+    display: block;
+}
+
+/* 参考：回転アニメーションの定義 */
+/*
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*/
+
+/* ==========================================================================
+   [header]ヘッダー
+   ========================================================================== */
+.bl_headerUtils {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.bl_headerUtils_logo {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 300;
+}
+
+.bl_headerUtils_logo_txt-box {
+    background-color: #f15433;
+    color: #fff;
+    padding: 0.2em 0.2em 0.2em 0.2em;
+    letter-spacing: 0.02em;
+}
+
+.bl_headerUtils_logo_txt-suffix {
+    color: #fff;
+    margin-left: 0.05em;
+}
+
+.bl_headerUtils_logo:hover,
+.bl_headerUtils_txt:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.bl_headerUtils_txt {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+/* ハンバーガーメニュー */
+.bl_hamburger {
+    display: block;
+    width: 30px;
+    height: 20px;
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1100; /* ナビゲーションより上に表示 */
+    padding: 0;
+}
+
+.bl_hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #fff; /* 背景が紫なので白に設定 */
+    position: absolute;
+    left: 0;
+    transition: .3s;
+}
+
+.bl_hamburger span:nth-child(1) { top: 0; }
+.bl_hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.bl_hamburger span:nth-child(3) { bottom: 0; }
+
+/* ハンバーガーメニュー展開時（×印に変形） */
+.bl_hamburger.is-active span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.bl_hamburger.is-active span:nth-child(2) { opacity: 0; }
+.bl_hamburger.is-active span:nth-child(3) { bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+
+/* ナビゲーション（モバイル） */
+.bl_headerNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(119, 41, 83, 0.95); /* var(--ubuntu-purple) の透過版 */
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s;
+}
+
+.bl_headerNav.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bl_headerNav_list {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+.bl_headerNav_list li { margin: 20px 0; }
+.bl_headerNav_list a { color: #fff; font-size: 1.5rem; font-weight: 700; }
+
+/* ボトムナビゲーション */
+.bl_bottomNav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--bottom-nav-height);
+    background-color: #ffffff;
+    border-top: 2px solid var(--ubuntu-purple);
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+.bl_bottomNav_list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.bl_bottomNav_list li {
+    width: 100%;
+}
+
+.bl_bottomNav_list a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 0.7rem;
+    color: var(--text-color);
+}
+
+.bl_bottomNav_list i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+    color: var(--ubuntu-purple);
+}
+
+/* ==========================================================================
+   Tablet Styles (Media Query: min-width 768px)
+   ========================================================================== */
+@media screen and (min-width: 768px) {
+    body {
+        padding-top: var(--header-height-desktop);
+        padding-bottom: 0;
+    }
+
+    .ly_header_inner {
+        height: var(--header-height-desktop);
+        padding: 0 20px;
+    }
+
+    .bl_headerUtils_logo {
+        width: auto; /* Logo size auto for text */
+        margin-right: 15px;
+    }
+
+    .bl_headerUtils_txt {
+        font-size: 1.5rem; /* フォントサイズ拡大 */
+    }
+
+    /* タブレット以上でボトムナビ非表示 */
+    .bl_bottomNav { display: none; }
+}
+
+/* ==========================================================================
+   Desktop Styles (Media Query: min-width 1024px)
+   ========================================================================== */
+@media screen and (min-width: 1024px) {
+    .ly_header_inner {
+        max-width: 1024px; /* PC画面でのコンテンツ幅制限 */
+    }
+
+    /* デスクトップ用ナビゲーション設定（ハンバーガー非表示、メニュー表示） */
+    .bl_hamburger { display: none; }
+
+    .bl_headerNav {
+        position: static;
+        height: auto;
+        width: auto;
+        background: transparent;
+        opacity: 1;
+        visibility: visible;
+        display: block;
+    }
+
+    .bl_headerNav_list { 
+        display: flex; margin: 0; 
+        
+    }
+    .bl_headerNav_list li { 
+        margin: 0 0 0 30px; 
+    }
+    .bl_headerNav_list a { 
+        font-size: 1rem; 
+    }
+    .bl_headerNav_list a:hover { 
+        opacity: 0.8; 
+    }
+
+    /* PC版レイアウト調整：タイトルを中央配置にする */
+    .bl_headerUtils_txt {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+        width: auto;
+    }
+
+}
+
+/* メモ部分のスタイル */
+
+/* ==========================================================================
+   Main Content Layout
+   ========================================================================== */
+.ly_main {
+    width: 100%;
+    /* bodyで上下paddingを設定済みなので、ここでは微調整のみ */
+    min-height: calc(100vh - var(--header-height-mobile) - var(--bottom-nav-height));
+}
+
+.ly_main_inner {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px 15px;
+    box-sizing: border-box;
+}
+
+/* ページタイトル */
+.bl_pageTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    color: var(--text-color);
+    padding-left: 10px;
+    border-left: 4px solid var(--ubuntu-orange); /* アクセントカラー */
+}
+
+/* ==========================================================================
+   Memo Grid System
+   ========================================================================== */
+.bl_memoGrid {
+    display: grid;
+    /* レスポンシブなグリッド設定:
+      最小幅160pxの列を画面幅いっぱいに自動で敷き詰める設定。
+      スマホでは2列、タブレット以上では3〜4列に自動調整されます。
+    */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+}
+
+/* ==========================================================================
+   Memo Card Design
+   ========================================================================== */
+.bl_memoCard {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid var(--ubuntu-purple);
+    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden; /* 角丸からはみ出さないように */
+    height: 200px; /* カードの高さを統一 */
+    position: relative;
+}
+
+.bl_memoCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bl_memoCard_link {
+    display: block;
+    padding: 15px;
+    height: 100%;
+    box-sizing: border-box;
+    color: inherit;
+    text-decoration: none;
+}
+
+.bl_memoCard_title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    color: var(--ubuntu-purple); /* タイトルにテーマカラー */
+    
+    /* 1行で省略表示 (...) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bl_memoCard_date {
+    font-size: 0.75rem;
+    color: #888;
+    margin: 0 0 10px 0;
+}
+
+.bl_memoCard_txt {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #555;
+    margin: 0;
+    
+    /* 複数行で省略表示 (Webkit対応ブラウザ向け) */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5; /* 5行まで表示 */
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Floating Action Button (FAB) - 新規作成ボタン
+   ========================================================================== */
+.bl_fab {
+    position: fixed;
+    /* ボトムナビの高さ + 余白 */
+    bottom: calc(var(--bottom-nav-height) + 20px);
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--ubuntu-orange);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 10px rgba(233, 84, 32, 0.4); /* オレンジの影 */
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.bl_fab:hover {
+    background-color: #d14615; /* 少し濃く */
+    transform: scale(1.05);
+}
+
+.bl_fab:active {
+    transform: scale(0.95);
+}
+
+/* ==========================================================================
+   Media Queries Adjustments
+   ========================================================================== */
+
+/* タブレット・PC以上 (768px~) */
+@media screen and (min-width: 768px) {
+    .ly_main {
+        min-height: calc(100vh - var(--header-height-desktop));
+    }
+    
+    .ly_main_inner {
+        padding: 30px 20px;
+    }
+
+    .bl_memoGrid {
+        /* PC画面ではカードを少し大きめに */
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+    }
+
+    .bl_memoCard {
+        height: 240px;
+    }
+
+    .bl_fab {
+        /* PCではボトムナビがないので、画面下からの距離を短くする */
+        bottom: 30px;
+        right: 30px;
+        width: 64px;
+        height: 64px;
+        font-size: 1.8rem;
+    }
+}
