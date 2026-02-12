@@ -34,7 +34,7 @@
                     <a class="bl_headerUtils_logo" href="index.html">
                         <span class="bl_headerUtils_logo_txt-box">SERI</span><span class="bl_headerUtils_logo_txt-suffix">O</span>
                     </a>
-                    <a class="bl_headerUtils_txt" href="index.html">Oe-NoteBook</a>
+                    <a class="bl_headerUtils_txt" href="index.html">OeNote</a>
                 </div>
                 <!-- / .bl_headerUtils-->
 
@@ -138,7 +138,30 @@
             </ul>
         </nav>
 
-        <!-- https://css-architecture-perfect.guide/chapter6 -->
-        <!-- デザイン（PC）： https://dribbble.com/shots/14967815-Notes-App-concept?showSimilarShots=true&_=1770447579924 -->
+        <!-- ダイアログ -->
+          <dialog class="bl_dialog" id="js-add-memo-dialog">
+            <form method="dialog" class="bl_dialog_form">
+                <h3 class="bl_dialog_title">新しいメモを作成</h3>
+                
+                <div class="bl_dialog_inputGroup">
+                    <label for="js-input-title">タイトル</label>
+                    <input type="text" id="js-input-title" placeholder="例：買い物リスト" required>
+                </div>
+
+                <div class="bl_dialog_inputGroup">
+                    <label for="js-input-text">内容</label>
+                    <textarea id="js-input-text" rows="5" placeholder="メモの内容を入力..." required></textarea>
+                </div>
+
+                <div class="bl_dialog_footer">
+                    <button type="button" class="bl_btn bl_btn-cancel" id="js-cancel-btn">キャンセル</button>
+                    <button type="button" class="bl_btn bl_btn-save" id="js-save-btn">保存する</button>
+                </div>
+            </form>
+        </dialog>
+        
     </body>
 </html>
+
+<!-- https://css-architecture-perfect.guide/chapter6 -->
+<!-- デザイン（PC）： https://dribbble.com/shots/14967815-Notes-App-concept?showSimilarShots=true&_=1770447579924 -->

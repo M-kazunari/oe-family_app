@@ -501,3 +501,85 @@ a {
         font-size: 1.8rem;
     }
 }
+
+/* ==========================================================================
+   Dialog (Modal) Styles
+   ========================================================================== */
+.bl_dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background-color: #fff;
+}
+
+/* ダイアログの背景（バックドロップ） */
+.bl_dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bl_dialog_title {
+    margin: 0 0 20px 0;
+    color: var(--ubuntu-purple);
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--ubuntu-orange);
+    padding-bottom: 10px;
+}
+
+.bl_dialog_inputGroup {
+    margin-bottom: 15px;
+}
+
+.bl_dialog_inputGroup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.bl_dialog_inputGroup input,
+.bl_dialog_inputGroup textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.bl_dialog_inputGroup input:focus,
+.bl_dialog_inputGroup textarea:focus {
+    outline: none;
+    border-color: var(--ubuntu-orange);
+}
+
+.bl_dialog_footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.bl_btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+.bl_btn:hover { opacity: 0.8; }
+
+.bl_btn-cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.bl_btn-save {
+    background-color: var(--ubuntu-orange);
+    color: #fff;
+}
