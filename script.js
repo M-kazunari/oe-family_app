@@ -1,4 +1,28 @@
 // ==========================================
+// 【ログイン画面】Authenticator（認証コンポーネント）
+// ==========================================
+// 注意: これはESモジュール形式の例です
+import { Amplify } from 'aws-amplify';
+import { getCurrentUser } from 'aws-amplify/auth';
+import outputs from './amplify_outputs.json';
+
+// AWSの情報を読み込む
+Amplify.configure(outputs);
+
+// ログインしているかチェックする関数（例）
+async function checkUser() {
+    try {
+        const user = await getCurrentUser();
+        console.log("ログイン中:", user.username);
+    } catch (err) {
+        console.log("ログインしていません。ログイン画面へ誘導します。");
+        // ここでログイン画面を表示する処理を入れます
+    }
+}
+
+checkUser();
+
+// ==========================================
 // 【ハンバーガーメニュー】
 // ==========================================
 const hamburger = document.getElementById('js-hamburger');
