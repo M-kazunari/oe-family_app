@@ -1,26 +1,14 @@
 // ==========================================
 // 【ログイン画面】Authenticator（認証コンポーネント）
 // ==========================================
-// 注意: これはESモジュール形式の例です
-// import { Amplify } from 'aws-amplify';
-// import { getCurrentUser } from 'aws-amplify/auth';
-// import outputs from './amplify_outputs.json';
+import { generateClient } from 'aws-amplify/data';
+import { Amplify } from 'aws-amplify';
+import outputs from './amplify_outputs.json';
 
-// // AWSの情報を読み込む
-// Amplify.configure(outputs);
+Amplify.configure(outputs);
 
-// // ログインしているかチェックする関数（例）
-// async function checkUser() {
-//     try {
-//         const user = await getCurrentUser();
-//         console.log("ログイン中:", user.username);
-//     } catch (err) {
-//         console.log("ログインしていません。ログイン画面へ誘導します。");
-//         // ここでログイン画面を表示する処理を入れます
-//     }
-// }
-
-// checkUser();
+// データベース操作用のクライアントを生成
+const client = generateClient();
 
 // ==========================================
 // 【ハンバーガーメニュー】
@@ -68,26 +56,44 @@ cancelBtn.addEventListener('click', () => {
 });
 
 // 3. メモを保存して追加する
-saveBtn.addEventListener('click', () => {
+saveBtn.addEventListener('click', async () => {
     const title = inputTitle.value;
     const text = inputText.value;
 
-    // 入力が空の場合はアラートを出して終了
     if (!title || !text) {
         alert('タイトルと内容を入力してください');
         return;
     }
 
-    // 今日の日付を取得 (YYYY.MM.DD形式)
     const now = new Date();
     const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
 
-    // HTML要素を作成して追加
-    addMemoCard(title, dateStr, text);
+    try {
+        // --- ここからがAWSへの書き込み処理 ---
+        const { data: newNote, errors } = await client.models.Note.create({
+            title: title,
+            content: text,
+            date: dateStr
+        });
 
-    // ダイアログを閉じてクリア
-    dialog.close();
-    clearInputs();
+        if (errors) {
+            console.error("保存エラー:", errors);
+            return;
+        }
+
+        console.log("AWSに保存成功！:", newNote);
+        // ------------------------------------
+
+        // 保存に成功したら、画面にカードを表示
+        addMemoCard(newNote.title, newNote.date, newNote.content);
+
+        dialog.close();
+        clearInputs();
+
+    } catch (error) {
+        console.error("通信エラー:", error);
+        alert("保存に失敗しました。ネット接続を確認してください。");
+    }
 });
 
 // 入力欄をクリアする関数
